@@ -8,10 +8,12 @@
   "dependencies": {
     "@heroicons/react": "^2.0.12",
     "@reduxjs/toolkit": "^1.8.6",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.4",
+    "react-responsive-carousel": "^3.2.23",
     "redux": "^4.2.0"
   },
   "devDependencies": {
