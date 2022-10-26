@@ -1,6 +1,13 @@
 import Image from "next/image";
+import { useContext } from 'react'
 import { Bars4Icon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/outline"
+// import {signIn, signOut, useSession} from 'next-auth/react'
+import { signInWithGooglePopup, signOutUser } from "../utilities/firebase/firebase"
+import { UserContext } from '../context/user'
+
 export default function Header() {
+    const { currentUser } = useContext(UserContext)
+    console.log('HEADER', currentUser)
     return (
         <header>
             {/* Top Nav */}
@@ -24,8 +31,8 @@ export default function Header() {
 
                 {/* Right */}
                 <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
-                    <div className="link">
-                        <p>Hello Sanuja Cooray</p>
+                    <div onClick={currentUser ? signOutUser : signInWithGooglePopup} className="link">
+                        <p>{currentUser ? `Hello Sanuja Cooray` : `Sign In`}</p>
                         <p className="font-extrabold md:text-sm">Account & Lists</p>
                     </div>
                     <div className="link">
