@@ -3,17 +3,12 @@ import { useState } from "react";
 import { StarIcon } from "@heroicons/react/24/solid"
 import { useDispatch } from "react-redux";
 import { addToBasket } from "../slices/basketSlice"
+import formatCurrency from "../utilities/currency";
 
 const MAX_RATING = 5
 const MIN_RATING = 1
 
-const formatCurrency = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2
-})
-
-export default function Product({ title, price, description, category, image }) {
+export default function Product({ id, title, price, description, category, image }) {
     // Send Actions to Reduce
     const dispatch = useDispatch()
 
@@ -22,7 +17,7 @@ export default function Product({ title, price, description, category, image }) 
 
     // Sending the product as an action to the REDUX store... the basket slice
     const addItemToBasket = () => {
-        const product = { title, price, description, category, image }
+        const product = { id, title, price, description, category, image, rating, hasPrime }
         dispatch(addToBasket(product))
     }
 
@@ -32,7 +27,7 @@ export default function Product({ title, price, description, category, image }) 
             <Image src={image} height={200} width={200} objectFit="contain" />
             <h4 className="my-3">{title}</h4>
             <div className="flex">
-                {Array(rating).fill().map((i, _) => (
+                {Array(rating).fill().map((_, i) => (
                     <StarIcon key={i} className="h-5 text-yellow-500 " />
                 ))}
             </div>
