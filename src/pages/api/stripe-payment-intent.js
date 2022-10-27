@@ -8,8 +8,8 @@ const calculateOrderAmount = (items) => {
 }
 
 export default async (req, res) => {
-  const { items, email } = req.body
-  console.log(items, email)
+  const { items, email, uid } = req.body
+  console.log(items, email, uid)
 
   const transformedItems = items.map(({ description, price, title, image }) => {
     return {
@@ -38,6 +38,7 @@ export default async (req, res) => {
     cancel_url: `${process.env.HOST}/checkout`,
     metadata: {
       email,
+      uid,
       images: JSON.stringify(items.map(item => item.image))
     }
   })

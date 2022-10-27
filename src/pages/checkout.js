@@ -17,7 +17,7 @@ export default () => {
     const createCheckoutSession = async () => {
         console.log('CHECKOUT!')
         // const [clientSecret, setClientSecret] = useState("")
-        const checkoutSession = await axios.post("/api/stripe-payment-intent", { items, email: currentUser.email })
+        const checkoutSession = await axios.post("/api/stripe-payment-intent", { items, email: currentUser.email, uid : currentUser.uid })
 
         // Redirect user to Stripe Checkout
         const stripePromise = await loadStripe(process.env.stripe_public_key)
@@ -26,17 +26,6 @@ export default () => {
         })
 
         if (result.error) alert(result.error.message)
-        // useEffect(() => {
-        //     // Create PaymentIntent as soon as the page loads
-        //     const reaxios.post("/api/stripe-payment-intent", {
-        //         method: "POST",
-        //         headers: { "Content-Type": "application/json" },
-        //         body: JSON.stringify({ items, email: currentUser.email }),
-        //     })
-        //         .then((res) => res.json())
-        //         .then((data) => setClientSecret(data.clientSecret))
-        // }, [])
-
     }
 
 
