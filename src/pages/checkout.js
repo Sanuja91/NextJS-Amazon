@@ -1,17 +1,44 @@
-import Image from "next/image";
-import { useSelector } from "react-redux";
-import Header from "../components/Header";
-import CheckoutProduct from "../components/CheckoutProduct";
-import { selectItems, selectTotal } from "../slices/basketSlice";
-import formatCurrency from "../utilities/currency";
-import { useContext } from "react";
-import { UserContext } from "../context/user";
+import axios from "axios"
+import Image from "next/image"
+import { useSelector } from "react-redux"
+import Header from "../components/Header"
+import CheckoutProduct from "../components/CheckoutProduct"
+import { selectItems, selectTotal } from "../slices/basketSlice"
+import formatCurrency from "../utilities/currency"
+import { useContext, useState, useEffect } from "react"
+import { UserContext } from "../context/user"
+import { loadStripe } from '@stripe/stripe-js'
 
-export default function Checkout() {
+export default () => {
     const items = useSelector(selectItems)
     const total = useSelector(selectTotal)
     const { currentUser } = useContext(UserContext)
-    console.log('TOTAL', total)
+
+    const createCheckoutSession = async () => {
+        console.log('CHECKOUT!')
+        // const [clientSecret, setClientSecret] = useState("")
+        const checkoutSession = await axios.post("/api/stripe-payment-intent", { items, email: currentUser.email })
+
+        // Redirect user to Stripe Checkout
+        const stripePromise = await loadStripe(process.env.stripe_public_key)
+        const result = await stripePromise.redirectToCheckout({
+            sessionId: checkoutSession.data.id
+        })
+
+        if (result.error) alert(result.error.message)
+        // useEffect(() => {
+        //     // Create PaymentIntent as soon as the page loads
+        //     const reaxios.post("/api/stripe-payment-intent", {
+        //         method: "POST",
+        //         headers: { "Content-Type": "application/json" },
+        //         body: JSON.stringify({ items, email: currentUser.email }),
+        //     })
+        //         .then((res) => res.json())
+        //         .then((data) => setClientSecret(data.clientSecret))
+        // }, [])
+
+    }
+
 
     return (
         <div className="bg-gray-100">
@@ -41,7 +68,7 @@ export default function Checkout() {
                 <div className="flex flex-col bg-white p-10 shadow-md" >
                     {items.length > 0 && (
                         <div>
-                            <h2 className="whitespace-nowrap">Subtotal ({items.length} items):{" "} 
+                            <h2 className="whitespace-nowrap">Subtotal ({items.length} items):{" "}
                                 <span className="font-bold">
                                     {formatCurrency.format(total)}
                                 </span>
@@ -49,6 +76,8 @@ export default function Checkout() {
                         </div>
                     )}
                     <button
+                        role="link"
+                        onClick={createCheckoutSession}
                         className={`button mt-2 ${!currentUser && 'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed'}`}
                         disabled={!currentUser}
                     >
@@ -57,5 +86,5 @@ export default function Checkout() {
                 </div>
             </main>
         </div >
-    );
+    )
 }

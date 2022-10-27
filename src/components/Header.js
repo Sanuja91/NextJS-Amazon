@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectItems } from "../slices/basketSlice";
 
-export default function Header() {
+export default () => {
     const { currentUser } = useContext(UserContext)
     const router = useRouter()
     const items = useSelector(selectItems)

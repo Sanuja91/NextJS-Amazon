@@ -3,7 +3,7 @@ import { store } from '../app/store'
 import '../styles/globals.css'
 import { UserProvider } from '../context/user'
 
-const MyApp = ({ Component, pageProps }) => {
+export default ({ Component, pageProps }) => {
   return (
     <UserProvider>
       <Provider store={store}>
@@ -12,5 +12,3 @@ const MyApp = ({ Component, pageProps }) => {
     </UserProvider>
   )
 }
-
-export default MyApp

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux"
 import { addToBasket, removeFromBasket } from "../slices/basketSlice"
 import formatCurrency from "../utilities/currency"
 
-export default function CheckoutProduct({ id, title, price, rating, description, category, image, hasPrime }) {
+export default ({ id, title, price, rating, description, category, image, hasPrime }) => {
     const dispatch = useDispatch()
 
     const addItemToBasket = () => {

@@ -6,5 +6,9 @@ module.exports = {
      'links.papareact.com',
      'fakestoreapi.com' 
     ]
+  },
+  env:{
+    stripe_public_key: process.env.STRIPE_PUBLIC_KEY,
+    google_client_id: process.env.GOOGLE_CLIENT_ID
   }
 }

@@ -8,7 +8,7 @@ import formatCurrency from "../utilities/currency";
 const MAX_RATING = 5
 const MIN_RATING = 1
 
-export default function Product({ id, title, price, description, category, image }) {
+export default ({ id, title, price, description, category, image }) => {
     // Send Actions to Reduce
     const dispatch = useDispatch()
 
