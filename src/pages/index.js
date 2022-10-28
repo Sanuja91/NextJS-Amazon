@@ -1,6 +1,6 @@
-import Header from "../components/Header";
-import Banner from "../components/Banner";
-import ProductFeed from "../components/ProductFeed";
+import Header from "../components/Header"
+import Banner from "../components/Banner"
+import ProductFeed from "../components/ProductFeed"
 
 export default function Home({ products }) {
   return (
@@ -15,7 +15,7 @@ export default function Home({ products }) {
         <ProductFeed products={products} />
       </main>
     </div >
-  );
+  )
 }
 
 

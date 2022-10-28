@@ -1,14 +1,12 @@
-import Image from "next/image";
-import { useContext } from 'react'
+import Image from "next/image"
 import { Bars4Icon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/outline"
-import { signInWithGooglePopup, signOutUser } from "../utilities/firebase/firebase"
-import { UserContext } from '../context/user'
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { selectItems } from "../slices/basketSlice";
+import { signIn, signOut, useSession } from "next-auth/react"
+import { useRouter } from "next/router"
+import { useSelector } from "react-redux"
+import { selectItems } from "../slices/basketSlice"
 
 export default () => {
-    const { currentUser } = useContext(UserContext)
+    const { data: session } = useSession()
     const router = useRouter()
     const items = useSelector(selectItems)
 
@@ -35,8 +33,8 @@ export default () => {
 
                 {/* Right */}
                 <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
-                    <div onClick={currentUser ? signOutUser : signInWithGooglePopup} className="link">
-                        <p>{currentUser ? `Hello Sanuja Cooray` : `Sign In`}</p>
+                    <div onClick={session ? signOut : signIn} className="link">
+                        <p>{session ? `Hello ${session.user.name}` : `Sign In`}</p>
                         <p className="font-extrabold md:text-sm">Account & Lists</p>
                     </div>
                     <div className="link">

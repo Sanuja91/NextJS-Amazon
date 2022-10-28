@@ -5,19 +5,18 @@ import Header from "../components/Header"
 import CheckoutProduct from "../components/CheckoutProduct"
 import { selectItems, selectTotal } from "../slices/basketSlice"
 import formatCurrency from "../utilities/currency"
-import { useContext} from "react"
-import { UserContext } from "../context/user"
 import { loadStripe } from '@stripe/stripe-js'
+import { useSession } from "next-auth/react"
 
 export default () => {
     const items = useSelector(selectItems)
     const total = useSelector(selectTotal)
-    const { currentUser } = useContext(UserContext)
+    const { data: session } = useSession()
 
     const createCheckoutSession = async () => {
         console.log('CHECKOUT!')
         // const [clientSecret, setClientSecret] = useState("")
-        const checkoutSession = await axios.post("/api/stripe-payment-intent", { items, email: currentUser.email, uid : currentUser.uid })
+        const checkoutSession = await axios.post("/api/stripe-payment-intent", { items, email: session.user.email })
 
         // Redirect user to Stripe Checkout
         const stripePromise = await loadStripe(process.env.stripe_public_key)
@@ -67,10 +66,10 @@ export default () => {
                     <button
                         role="link"
                         onClick={createCheckoutSession}
-                        className={`button mt-2 ${!currentUser && 'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed'}`}
-                        disabled={!currentUser}
+                        className={`button mt-2 ${!session && 'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed'}`}
+                        disabled={!session}
                     >
-                        {!currentUser ? "Sign in to checkout" : "Proceed to checkout"}
+                        {!session ? "Sign in to checkout" : "Proceed to checkout"}
                     </button>
                 </div>
             </main>

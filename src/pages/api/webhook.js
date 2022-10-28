@@ -21,41 +21,14 @@ const fulfillOrder = async (session) => {
     })
 
     try {
-        db.collection('users').doc(session.metadata.uid).collection('orders').doc(session.id).set({
+        db.collection('users').doc(session.metadata.email).collection('orders').doc(session.id).set({
             amount: session.amount_total / 100, // Because Stripe keeps things in cents
             amount_shipping: session.total_details.amount_shipping / 100,
             images: JSON.parse(session.metadata.images),
             timestamp: admin.firestore.FieldValue.serverTimestamp()
         })
-
-        // app.firestore.collection('users').doc(uid).collection('orders').doc(session.id).set({
-        //     amount: session.amount_total / 100, // Because Stripe keeps things in cents
-        //     amount_shipping: session.total_details.amount_shipping / 100,
-        //     images: JSON.parse(session.metadata.images),
-        //     timestamp: admin.firestore.FieldValue.serverTimestamp()
-        // })
     }
     catch (error) { console.log('Firestore Error', error) }
-    // return
-    //     // const docRef = db.collection('users').doc(uid).collection('orders').doc(session.id)
-    //     // // doc(db, `users/${uid}/orders`)
-    //     // return setDoc(docRef, {
-    //     //     amount: session.amount_total / 100, // Because Stripe keeps things in cents
-    //     //     amount_shipping: session.total_details.amount_shipping / 100,
-    //     //     images: JSON.parse(session.metadata.images),
-    //     //     timestamp: admin.firestore.FieldValue.serverTimestamp()
-    //     // })
-
-
-    //     // return doc(db, `users/${uid}/orders`
-    //     //     .collection('orders').doc(session.id).set({
-    //     //         amount: session.amount_total / 100, // Because Stripe keeps things in cents
-    //     //         amount_shipping: session.total_details.amount_shipping / 100,
-    //     //         images: JSON.parse(session.metadata.images),
-    //     //         timestamp: admin.firestore.FieldValue.serverTimestamp()
-    //     //     })
-    //     .then(() => { console.log(`SUCCESS: Order ${session.id}`) })
-    // .catch((error) => { console.log(`Firebase Error : ${error}`) })
 }
 
 export default async (req, res) => {

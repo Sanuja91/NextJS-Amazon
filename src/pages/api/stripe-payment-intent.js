@@ -1,15 +1,8 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
-const calculateOrderAmount = (items) => {
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  return 14
-}
-
 export default async (req, res) => {
-  const { items, email, uid } = req.body
-  console.log(items, email, uid)
+  const { items, email } = req.body
+  console.log(items, email)
 
   const transformedItems = items.map(({ description, price, title, image }) => {
     return {
@@ -38,7 +31,6 @@ export default async (req, res) => {
     cancel_url: `${process.env.HOST}/checkout`,
     metadata: {
       email,
-      uid,
       images: JSON.stringify(items.map(item => item.image))
     }
   })
