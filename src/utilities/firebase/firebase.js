@@ -1,8 +1,8 @@
-import { initializeApp } from 'firebase/app'
+import { initializeApp, getApps, getApp } from 'firebase/app'
 import { createUserWithEmailAndPassword, getAuth, signInWithPopup, signInWithEmailAndPassword, signOut, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
-const firebaseConfig = {
+const config = {
   apiKey: "AIzaSyCOfK5bOxut1yhLj0yzGYa8b2I8SGfZjH8",
   authDomain: "clone-e367b.firebaseapp.com",
   projectId: "clone-e367b",
@@ -11,7 +11,7 @@ const firebaseConfig = {
   appId: "1:428903398234:web:3427e8132840f9db161163"
 }
 
-const app = initializeApp(firebaseConfig)
+const app = !getApps().length ? initializeApp(config) : getApp()
 
 const googleProvider = new GoogleAuthProvider()
 googleProvider.setCustomParameters({ prompt: 'select_account' })

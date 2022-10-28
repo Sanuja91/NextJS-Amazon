@@ -5,7 +5,7 @@ import Header from "../components/Header"
 import CheckoutProduct from "../components/CheckoutProduct"
 import { selectItems, selectTotal } from "../slices/basketSlice"
 import formatCurrency from "../utilities/currency"
-import { useContext, useState, useEffect } from "react"
+import { useContext} from "react"
 import { UserContext } from "../context/user"
 import { loadStripe } from '@stripe/stripe-js'
 
