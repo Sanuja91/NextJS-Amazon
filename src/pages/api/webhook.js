@@ -1,6 +1,6 @@
 import { buffer } from "micro"
 import * as admin from "firebase-admin"
-import { doc, collection, getFirestore, Timestamp, FieldValue, setDoc } from "firebase-admin/firestore"
+import { getFirestore } from "firebase-admin/firestore"
 // Secure a connection to Firebase from the backend
 const serviceAccount = require("../../utilities/firebase/permissions.json");
 // Prevent double initlization of firebase
@@ -22,6 +22,7 @@ const fulfillOrder = async (session) => {
 
     try {
         db.collection('users').doc(session.metadata.email).collection('orders').doc(session.id).set({
+            id: session.id,
             amount: session.amount_total / 100, // Because Stripe keeps things in cents
             amount_shipping: session.total_details.amount_shipping / 100,
             images: JSON.parse(session.metadata.images),
